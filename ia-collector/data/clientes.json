@@ -1,0 +1,7 @@
+[
+  { "id": 1, "nome": "Carlos Souza", "valor": 250.00, "vencimento": "2025-11-10", "status": "pendente" },
+  { "id": 2, "nome": "Ana Pereira", "valor": 480.50, "vencimento": "2025-11-15", "status": "atrasado" },
+  { "id": 3, "nome": "João Lima", "valor": 320.00, "vencimento": "2025-11-20", "status": "pago" },
+  { "id": 4, "nome": "Mariana Costa", "valor": 150.75, "vencimento": "2025-11-22", "status": "pendente" },
+  { "id": 5, "nome": "Felipe Santos", "valor": 600.00, "vencimento": "2025-11-25", "status": "pendente" }
+]

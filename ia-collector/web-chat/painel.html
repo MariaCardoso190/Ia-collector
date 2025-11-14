@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💼 Painel de Cobrança | IA Collector</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      background-color: #0d1117;
+      color: #fff;
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1f6feb;
+      padding: 15px;
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    main {
+      padding: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: #161b22;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #30363d;
+    }
+    th {
+      background: #21262d;
+    }
+    tr:hover {
+      background: #1a1f25;
+    }
+    .status {
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+    .pendente { background: #d29922; color: #000; }
+    .atrasado { background: #f85149; color: #fff; }
+    .pago { background: #238636; color: #fff; }
+  </style>
+</head>
+<body>
+  <header>💼 Painel de Cobrança - IA Collector</header>
+  <main>
+    <h2>Clientes e Status de Pagamento</h2>
+    <table id="tabela-clientes">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Valor (R$)</th>
+          <th>Vencimento</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td colspan="4">Carregando dados...</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    async function carregarClientes() {
+      const res = await fetch("/api/clientes");
+      const clientes = await res.json();
+
+      const tbody = document.querySelector("#tabela-clientes tbody");
+      tbody.innerHTML = "";
+
+      clientes.forEach(cli => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${cli.nome}</td>
+          <td>R$ ${cli.valor.toFixed(2)}</td>
+          <td>${cli.vencimento}</td>
+          <td><span class="status ${cli.status}">${cli.status}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    carregarClientes();
+  </script>
+</body>
+</html>

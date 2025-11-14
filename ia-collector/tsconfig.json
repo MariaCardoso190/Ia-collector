@@ -1,0 +1,17 @@
+{
+  "name": "ia-collector",
+  "version": "1.0.0",
+  "description": "Projeto de integração com OpenRouter e IA interativa no terminal",
+  "main": "chatOpenRouter.js",
+  "type": "module",
+  "scripts": {
+    "start": "node chatOpenRouter.js"
+  },
+  "keywords": [],
+  "author": "Maria",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "node-fetch": "^3.3.2"
+  }
+}
