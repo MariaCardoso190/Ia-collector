@@ -141,7 +141,7 @@ Sou Maria Cardoso, desenvolvedora Full Stack com foco em Inteligência Artificia
 
 📬 Conecte-se comigo
 
-GitHub: https://github.com/MariaCardoso190/Ia-collector
+GitHub: https://github.com/MariaCardoso190
 
 LinkedIn: www.linkedin.com/in/maria-cardoso-30-11562ru
 
