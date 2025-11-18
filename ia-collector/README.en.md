@@ -140,7 +140,7 @@ I am Maria Cardoso, a Full-Stack developer focused on Artificial Intelligence, c
 ✔️ Focus on professional standards and best practices
 
 📬 Connect with me
-GitHub: https://github.com/MariaCardoso190/Ia-collector
+GitHub: https://github.com/MariaCardoso190
 
 LinkedIn: www.linkedin.com/in/maria-cardoso-30-11562ru
 
