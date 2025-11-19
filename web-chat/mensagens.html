@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mensagens - IA Collector</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body { font-family: "Segoe UI", sans-serif; background:#0d1117; color:#e6edf3; margin:0; }
+    header { background:#1f6feb; padding:12px 18px; display:flex; align-items:center; gap:12px; }
+    header h1 { margin:0; font-size:1.1rem; }
+    main { padding:18px; }
+    .topbar { display:flex; gap:10px; margin-bottom:12px; }
+    button { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:#238636; color:#fff; }
+    button.alt { background:#0ea5e9; }
+    .lista { margin-top:10px; display:grid; gap:8px; }
+    .card { background:#111317; padding:12px; border-radius:8px; border:1px solid #22272b; }
+    .meta { font-size:0.9rem; color:#9fb3c8; }
+    pre { white-space:pre-wrap; word-wrap:break-word; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>💬 Mensagens geradas — IA Collector</h1>
+    <div style="margin-left:auto;">
+      <a href="painel.html" style="color:white; text-decoration:none; margin-right:12px;">🔙 Painel</a>
+      <a href="index.html" style="color:white; text-decoration:none;">🏠 Chat</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="topbar">
+      <button id="btn-gerar">🔁 Gerar mensagens (IA)</button>
+      <button id="btn-atualizar" class="alt">🔄 Atualizar lista</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div id="lista" class="lista">
+      <div class="card">Carregando mensagens...</div>
+    </div>
+  </main>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    const listaEl = document.getElementById('lista');
+    const btnGerar = document.getElementById('btn-gerar');
+    const btnAtualizar = document.getElementById('btn-atualizar');
+
+    // ==========================
+    // BUSCAR MENSAGENS DO BACKEND
+    // ==========================
+    async function carregarMensagens() {
+      statusEl.textContent = 'Carregando mensagens...';
+
+      try {
+        const res = await fetch('/api/mensagens');
+        const msgs = await res.json();
+
+        listaEl.innerHTML = '';
+
+        if (!msgs || msgs.length === 0) {
+          listaEl.innerHTML = '<div class="card">Nenhuma mensagem gerada ainda.</div>';
+          statusEl.textContent = '';
+          return;
+        }
+
+        msgs.reverse().forEach(m => {
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.innerHTML = `
+            <div class="meta">#${m.id} • ${m.nome} • ${m.tipo} • ${new Date(m.criadoEm).toLocaleString()}</div>
+            <pre>${m.mensagem}</pre>
+          `;
+          listaEl.appendChild(div);
+        });
+
+        statusEl.textContent = `Total: ${msgs.length} mensagens`;
+
+      } catch (err) {
+        console.error('Erro ao buscar mensagens:', err);
+        statusEl.textContent = 'Erro ao carregar mensagens.';
+        listaEl.innerHTML = '<div class="card">Erro ao buscar mensagens.</div>';
+      }
+    }
+
+    // ==========================
+    // GERAR MENSAGENS (IA)
+    // ==========================
+    async function gerarMensagens() {
+      if (!confirm('Gerar novas mensagens via IA? Isso consumirá sua cota/API. Continuar?')) return;
+
+      statusEl.textContent = 'Gerando mensagens via IA... aguarde.';
+
+      try {
+        const res = await fetch('/api/generate-mensagens', { method: 'POST' });
+        const data = await res.json();
+
+        console.log('Resposta geração:', data);
+
+        statusEl.textContent = data.message || 'Geração concluída';
+
+        await carregarMensagens();
+
+      } catch (err) {
+        console.error('Erro ao gerar:', err);
+        statusEl.textContent = 'Erro ao gerar mensagens.';
+      }
+    }
+
+    btnGerar.addEventListener('click', gerarMensagens);
+    btnAtualizar.addEventListener('click', carregarMensagens);
+
+    // Carrega ao abrir página
+    carregarMensagens();
+  </script>
+
+</body>
+</html>
